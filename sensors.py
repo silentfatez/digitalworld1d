@@ -28,9 +28,9 @@ class Sensors(sm.SM):
         self.state = self.start_state
     def get_next_values(self, state, inp):
             dist = distance()
-            irouput=GPIO.input(IR)
+            iroutput=GPIO.input(IR)
             if state=='Empty':
-                if dist>distancelimit and irouput==True:
+                if dist>distancelimit and iroutput==True:
                     state='Occupied'
                     db.child("room"+roomnumber).set(state)
                 else:
@@ -106,7 +106,7 @@ try:
 ##                pass
             dist = distance()
             print(dist)
-            next_state=roomsm.step(next_state)
+            next_state=sensor.step(next_state)
             time.sleep(1)
         # Reset by pressing CTRL + C
 except KeyboardInterrupt:
