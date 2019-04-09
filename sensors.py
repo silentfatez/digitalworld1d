@@ -1,19 +1,19 @@
 from multiprocessing import Process
-
 import RPi.GPIO as GPIO
 import time
 from libdw import pyrebase
 from mfrc522 import SimpleMFRC522
 from secrets import firebasesecrets
+from libdw import sm
+roomnumber=1
 GPIO.setwarnings(False)
-
+distancelimit=10
 GPIO.setmode(GPIO.BCM)
 
 def do_actions():
      id, text = reader.read()
-     db.child("name1").set(text)
+     db.child("name"+roomnumber).set(text)
      print(text)
-
 
 url = firebasesecrets['url'] # URL to Firebase database
 apikey = firebasesecrets['apikey'] # unique token used for authentication
@@ -22,6 +22,26 @@ config={
     "apiKey":apikey,
     "databaseURL":url,
 }
+class Sensors(sm.SM):
+    start_state = 'Empty'
+    def start(self):
+        self.state = self.start_state
+    def get_next_values(self, state, inp):
+            dist = distance()
+            irouput=GPIO.input(IR)
+            if state=='Empty':
+                if dist>distancelimit and irouput==True:
+                    state='Occupied'
+                    db.child("room"+roomnumber).set(state)
+                else:
+                    state=state
+            else:
+                if dist<distancelimit and iroutput==False:
+                    state='Empty'
+                    db.child('room'+roomnumber).set(state)
+
+            return next_state,next_state
+
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 TRIG = 16
@@ -60,7 +80,9 @@ def distance():
 
 
 reader = SimpleMFRC522()
-
+sensor=Sensors()
+sensor.start()
+next_state='Empty'
 
 
 try:
@@ -73,7 +95,6 @@ try:
         # We start the process and we block for 5 seconds.
                     action_process.start()
                     action_process.join(timeout=3)
-
         # We terminate the process.
                     action_process.terminate()
 ##            try:
@@ -85,20 +106,7 @@ try:
 ##                pass
             dist = distance()
             print(dist)
-            if dist>10:
-                try:
-                    db.child("distancesensor1").set("Empty")
-                except:
-                    pass
-            elif dist<10:
-                db.child("distancesensor1").set("Occupied")
-
-            if(GPIO.input(IR)==True): #object is far away
-                db.child("irsensor1").set("Occupied")
-
-            elif(GPIO.input(IR)==False): #object is near
-                db.child("irsensor1").set("Empty")
-                print('here')
+            next_state=roomsm.step(next_state)
             time.sleep(1)
         # Reset by pressing CTRL + C
 except KeyboardInterrupt:
