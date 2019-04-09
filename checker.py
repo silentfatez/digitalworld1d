@@ -2,7 +2,7 @@
 from libdw import pyrebase
 from libdw import sm
 import datetime
-from secrets import firebase
+from secrets import firebasesecrets
 blocktime=30
 class RoomSM(sm.SM):
     start_state = 'all clear'
@@ -73,8 +73,8 @@ class RoomSM(sm.SM):
 
 
 
-url = firebase['url'] # URL to Firebase database
-apikey = firebase['apikey'] # unique token used for authentication
+url = firebasesecrets['url'] # URL to Firebase database
+apikey = firebasesecrets['apikey'] # unique token used for authentication
 
 config={
     "apiKey":apikey,

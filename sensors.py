@@ -4,6 +4,7 @@ import RPi.GPIO as GPIO
 import time
 from libdw import pyrebase
 from mfrc522 import SimpleMFRC522
+from secrets import firebasesecrets
 GPIO.setwarnings(False)
 
 GPIO.setmode(GPIO.BCM)
@@ -14,8 +15,8 @@ def do_actions():
      print(text)
 
 
-url = firebase['url'] # URL to Firebase database
-apikey = firebase['apikey'] # unique token used for authentication
+url = firebasesecrets['url'] # URL to Firebase database
+apikey = firebasesecrets['apikey'] # unique token used for authentication
 
 config={
     "apiKey":apikey,
