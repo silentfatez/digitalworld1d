@@ -12,7 +12,7 @@ GPIO.setmode(GPIO.BCM)
 
 def do_actions():
      id, text = reader.read()
-     db.child("name"+roomnumber).set(text)
+     db.child("name"+str(roomnumber)).set(text)
      print(text)
 
 url = firebasesecrets['url'] # URL to Firebase database
@@ -32,13 +32,13 @@ class Sensors(sm.SM):
             if state=='Empty':
                 if dist>distancelimit and iroutput==True:
                     state='Occupied'
-                    db.child("room"+roomnumber).set(state)
+                    db.child("room"+str(roomnumber)).set(state)
                 else:
                     state=state
             else:
                 if dist<distancelimit and iroutput==False:
                     state='Empty'
-                    db.child('room'+roomnumber).set(state)
+                    db.child('room'+str(roomnumber)).set(state)
 
             return next_state,next_state
 
