@@ -16,11 +16,11 @@ def default(o):
       default=default)
 
 
-blocktime=10
-blockbuffertime=5
+blocktime=0.5
+blockbuffertime=0
 class RoomSM(sm.SM):
     start_state = 'all clear'
-    
+
     def start(self):
         self.state = self.start_state
     def get_next_values(self, state, inp):
@@ -36,14 +36,14 @@ class RoomSM(sm.SM):
                     next_state='table 1 occupied'
                     table1time = datetime.datetime.now()
                     table1time = table1time + datetime.timedelta(minutes = blocktime)
-                    db.child('table1time').set(default(table1time))
+                    db.child('table1time').update(default(table1time))
 
                 elif room2val=='Occupied':
                     next_state='table 2 occupied'
                     table2time = datetime.datetime.now()
                     table2time = table2time + datetime.timedelta(minutes = blocktime)
                     table2timebuffer = table2time - datetime.timedelta(minutes = blockbuffertime)
-                    db.child('table2time').set(default(table2time))
+                    db.child('table2time').update(default(table2time))
 
                 else:
                     next_state=state
@@ -52,33 +52,33 @@ class RoomSM(sm.SM):
             elif state=='table 1 occupied':
                 if timenow.time()<table1time.time():
                     if name1=='Empty':
-                        db.child("name1").set('Unknown')
+                        db.child("name1").update('Unknown')
                     table1timebuffer = table1time - datetime.timedelta(minutes = blockbuffertime)
                     if timenow.time()<table1timebuffer.time():
                         if room1val=="Occupied":
                                 table1time = datetime.datetime.now()
                                 table1time = table1time + datetime.timedelta(minutes = blocktime)
-                                db.child('table1time').set(default(table1time))
+                                db.child('table1time').update(default(table1time))
                     if room2val=='Occupied':
                         next_state='all tables occupied'
                         table2time = datetime.datetime.now()
                         table2time = table2time + datetime.timedelta(minutes = blocktime)
-                        db.child('table2time').set(default(table2time))
+                        db.child('table2time').update(default(table2time))
 
 
                     else:
                         next_state=state
                 else:
                     next_state='all clear'
-                    db.child("name1").set('Empty')
-                    db.child('table1time').set('Empty')
+                    db.child("name1").update('Empty')
+                    db.child('table1time').update('Empty')
 
 
 
             elif state=='table 2 occupied':
                 if timenow.time()<table2time.time():
                     if name2=='Empty':
-                        db.child("name2").set('Unknown')
+                        db.child("name2").update('Unknown')
                     table2timebuffer = table2time - datetime.timedelta(minutes = blockbuffertime)
 
 
@@ -86,50 +86,50 @@ class RoomSM(sm.SM):
                         if room2val=='Occupied':
                             table2time = datetime.datetime.now()
                             table2time = table2time + datetime.timedelta(minutes = blocktime)
-                            db.child('table2time').set(default(table2time))
+                            db.child('table2time').update(default(table2time))
 
 
                     if room1val=='Occupied':
                         next_state='all tables occupied'
                         table1time = datetime.datetime.now()
                         table1time = table1time + datetime.timedelta(minutes = blocktime)
-                        db.child('table1time').set(default(table1time))
+                        db.child('table1time').update(default(table1time))
 
                     else:
                         next_state=state
                 else:
                     next_state='all clear'
-                    db.child("name2").set('Empty')
-                    db.child('table2time').set("Empty")
+                    db.child("name2").update('Empty')
+                    db.child('table2time').update("Empty")
 
 
             elif state=='all tables occupied':
                 if name1=='Empty':
-                    db.child("name1").set('Unknown')
+                    db.child("name1").update('Unknown')
                 if name2=='Empty':
-                    db.child("name1").set('Unknown')
+                    db.child("name1").update('Unknown')
                 table1timebuffer = table1time - datetime.timedelta(minutes = blockbuffertime)
                 table2timebuffer = table2time - datetime.timedelta(minutes = blockbuffertime)
                 if timenow.time()<table2timebuffer.time():
                     if room2val=="Occupied":
                             table2time = datetime.datetime.now()
                             table2time = table2time + datetime.timedelta(minutes = blocktime)
-                            db.child('table2time').set(default(table2time))
+                            db.child('table2time').update(default(table2time))
 
                 if timenow.time()<table1timebuffer.time():
                     if room1val=='Occupied':
                             table1time = datetime.datetime.now()
                             table1time = table1time + datetime.timedelta(minutes = blocktime)
-                            db.child('table1time').set(default(table1time))
+                            db.child('table1time').update(default(table1time))
 
                 if timenow.time()>table2time.time():
                     next_state='table 1 occupied'
-                    db.child('table2time').set("Empty")
-                    db.child("name2").set('Empty')
+                    db.child('table2time').update("Empty")
+                    db.child("name2").update('Empty')
                 elif timenow.time()>table1time.time():
                     next_state='table 2 occupied'
-                    db.child('table1time').set("Empty")
-                    db.child("name1").set('Empty')
+                    db.child('table1time').update("Empty")
+                    db.child("name1").update('Empty')
                 else:
                     next_state=state
 
