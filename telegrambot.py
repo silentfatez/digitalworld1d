@@ -4,7 +4,7 @@ import datetime
 import telepot
 from telepot.loop import MessageLoop
 from libdw import pyrebase
-from firebasesecrets import *
+from secrets import *
 
 """
 After **inserting token** in the source code, run it:
@@ -38,13 +38,13 @@ def handle(msg):
         table1time=db.child('table1time').get().val()
         name1=db.child('name1').get().val()
 
-        bot.sendMessage(chat_id, (table1time,name1))
+        bot.sendMessage(chat_id, str((table1time,name1)))
     elif command == '/table2':
-        table2time=db.child('table1time').get().val()
-        name2=db.child('name1').get().val()
-        
+        table2time=db.child('table2time').get().val()
+        name2=db.child('name2').get().val()
 
-        bot.sendMessage(chat_id, (table2time,name2))
+
+        bot.sendMessage(chat_id, str((table2time,name2)))
 bot = telepot.Bot(TOKEN)
 
 MessageLoop(bot, handle).run_as_thread()
