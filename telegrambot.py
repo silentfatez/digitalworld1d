@@ -36,23 +36,20 @@ def handle(msg):
     print (alert)
 
     if command == '/table1':
-        table1time=db.child('table1time').get().val()
-        name1=db.child('table1time').get().val()
-        if string != 'Empty':
+        name1=db.child('name1').get().val()
+        if command != 'Empty':
             Message='table 1 is Occupied by '+name1
         else:
             Message='table 1 is Empty'
-        bot.sendMessage(chat_id, str(Message))
     elif command == '/table2':
-        table2time=db.child('table2time').get().val()
-        name2=db.child('table2time').get().val()
-        if string != 'Empty':
+        name2=db.child('name2').get().val()
+        if command != 'Empty':
             Message='table 2 is Occupied by '+name2
         else:
             Message='table 2 is Empty'
 
+    bot.sendMessage(chat_id, str(Message))
 
-        bot.sendMessage(chat_id, str((table2time,name2)))
 bot = telepot.Bot(TOKEN)
 
 MessageLoop(bot, handle).run_as_thread()
