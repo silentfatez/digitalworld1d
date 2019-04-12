@@ -15,26 +15,26 @@ def default(o):
 
 blocktime=0.5
 blockbuffertime=0
-class RoomSM(sm.SM):
+class tableSM(sm.SM):
 
     def __init__(self):
         self.state = 'all clear'
     def get_next_values(self, state, inp):
-            room1val= db.child("room1").get().val()
-            room2val= db.child("room2").get().val()
+            table1val= db.child("table1").get().val()
+            table2val= db.child("table2").get().val()
             name1=db.child('name1').get().val()
             name2=db.child('name2').get().val()
-            print(room1val)
+            print(table1val)
             timenow=datetime.datetime.now()
             table1time,table2time=inp #get timings from previous inp
             if state=='all clear':
-                if room1val=='Occupied':
+                if table1val=='Occupied':
                     next_state='table 1 occupied'
                     table1time = datetime.datetime.now()
                     table1time = table1time + datetime.timedelta(minutes = blocktime)
                     db.child('table1time').set(default(table1time))
 
-                elif room2val=='Occupied':
+                elif table2val=='Occupied':
                     next_state='table 2 occupied'
                     table2time = datetime.datetime.now()
                     table2time = table2time + datetime.timedelta(minutes = blocktime)
@@ -51,11 +51,11 @@ class RoomSM(sm.SM):
                         db.child("name1").set('Unknown')
                     table1timebuffer = table1time - datetime.timedelta(minutes = blockbuffertime)
                     if timenow.time()<table1timebuffer.time():
-                        if room1val=="Occupied":
+                        if table1val=="Occupied":
                                 table1time = datetime.datetime.now()
                                 table1time = table1time + datetime.timedelta(minutes = blocktime)
                                 db.child('table1time').set(default(table1time))
-                    if room2val=='Occupied':
+                    if table2val=='Occupied':
                         next_state='all tables occupied'
                         table2time = datetime.datetime.now()
                         table2time = table2time + datetime.timedelta(minutes = blocktime)
@@ -79,13 +79,13 @@ class RoomSM(sm.SM):
 
 
                     if timenow.time()<table2timebuffer.time():
-                        if room2val=='Occupied':
+                        if table2val=='Occupied':
                             table2time = datetime.datetime.now()
                             table2time = table2time + datetime.timedelta(minutes = blocktime)
                             db.child('table2time').set(default(table2time))
 
 
-                    if room1val=='Occupied':
+                    if table1val=='Occupied':
                         next_state='all tables occupied'
                         table1time = datetime.datetime.now()
                         table1time = table1time + datetime.timedelta(minutes = blocktime)
@@ -107,13 +107,13 @@ class RoomSM(sm.SM):
                 table1timebuffer = table1time - datetime.timedelta(minutes = blockbuffertime)
                 table2timebuffer = table2time - datetime.timedelta(minutes = blockbuffertime)
                 if timenow.time()<table2timebuffer.time():
-                    if room2val=="Occupied":
+                    if table2val=="Occupied":
                             table2time = datetime.datetime.now()
                             table2time = table2time + datetime.timedelta(minutes = blocktime)
                             db.child('table2time').set(default(table2time))
 
                 if timenow.time()<table1timebuffer.time():
-                    if room1val=='Occupied':
+                    if table1val=='Occupied':
                             table1time = datetime.datetime.now()
                             table1time = table1time + datetime.timedelta(minutes = blocktime)
                             db.child('table1time').set(default(table1time))
@@ -141,10 +141,10 @@ config={
 }
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
-roomsm=RoomSM()
+tablesm=tableSM()
 table1time=datetime.datetime.now()
 table2time=datetime.datetime.now()
 
 while 1:
-    print(roomsm.state)
-    (table1time,table2time)=roomsm.step((table1time,table2time))
+    print(tablesm.state)
+    (table1time,table2time)=tablesm.step((table1time,table2time))

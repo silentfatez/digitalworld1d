@@ -5,14 +5,14 @@ from libdw import pyrebase
 from mfrc522 import SimpleMFRC522
 from secrets import firebasesecrets
 from libdw import sm
-roomnumber=1
+tablenumber=1
 GPIO.setwarnings(False)
 distancelimit=10
 GPIO.setmode(GPIO.BCM)
 
 def do_actions():
      id, text = reader.read()
-     db.child("name"+str(roomnumber)).update(text)
+     db.child("name"+str(tablenumber)).update(text)
      print(text)
 
 url = firebasesecrets['url'] # URL to Firebase database
@@ -32,13 +32,13 @@ class Sensors(sm.SM):
             if state=='Empty':
                 if dist>distancelimit and iroutput==True:
                     state='Occupied'
-                    db.child("room"+str(roomnumber)).update(state)
+                    db.child("table"+str(tablenumber)).update(state)
                 else:
                     state=state
             else:
                 if dist<distancelimit and iroutput==False:
                     state='Empty'
-                    db.child('room'+str(roomnumber)).update(state)
+                    db.child('table'+str(tablenumber)).update(state)
 
             return next_state,next_state
 
