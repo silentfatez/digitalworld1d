@@ -16,10 +16,9 @@ def default(o):
 blocktime=0.5
 blockbuffertime=0
 class RoomSM(sm.SM):
-    start_state = 'all clear'
 
-    def start(self):
-        self.state = self.start_state
+    def __init__(self):
+        self.state = 'all clear'
     def get_next_values(self, state, inp):
             room1val= db.child("room1").get().val()
             room2val= db.child("room2").get().val()
@@ -143,7 +142,6 @@ config={
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 roomsm=RoomSM()
-roomsm.start()
 table1time=datetime.datetime.now()
 table2time=datetime.datetime.now()
 

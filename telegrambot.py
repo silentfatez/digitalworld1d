@@ -37,16 +37,16 @@ def handle(msg):
 
     if command == '/table1':
         name1=db.child('name1').get().val()
-        if command != 'Empty':
-            Message='table 1 is Occupied by '+name1
+        if name1 != 'Empty':
+            Message='Table 1 is Occupied by '+name1
         else:
-            Message='table 1 is Empty'
+            Message='Table 1 is Empty'
     elif command == '/table2':
         name2=db.child('name2').get().val()
-        if command != 'Empty':
-            Message='table 2 is Occupied by '+name2
+        if name2 != 'Empty':
+            Message='Table 2 is Occupied by '+name2
         else:
-            Message='table 2 is Empty'
+            Message='Table 2 is Empty'
 
     bot.sendMessage(chat_id, str(Message))
 
