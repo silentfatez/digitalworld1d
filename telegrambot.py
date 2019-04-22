@@ -24,9 +24,9 @@ def handle(msg):
     alert='Got Command '+command
 
     print (alert)
-    if command=='/help':
+    if command=='/start':
         Message='Hi,welcome to table checker. You can type /help for some help.'
-    elif command=='/start':
+    elif command=='/help':
          Message='Looks like you need some help. You can check the status of table 1 using /table1 and table 2 using /table2. You can also use /alltables to get an update on all tables available.'
 
     elif command=='/alltables':
