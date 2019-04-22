@@ -7,16 +7,6 @@ from libdw import pyrebase
 from secrets import *
 
 """
-After **inserting token** in the source code, run it:
-```
-$ python2.7 diceyclock.py
-```
-[Here is a tutorial](http://www.instructables.com/id/Set-up-Telegram-Bot-on-Raspberry-Pi/)
-teaching you how to setup a bot on Raspberry Pi. This simple bot does nothing
-but accepts two commands:
-- `/roll` - reply with a random integer between 1 and 6, like rolling a dice.
-- `/time` - reply with the current time, like a clock.
-"""
 url = firebasesecrets['url'] # URL to Firebase database
 apikey = firebasesecrets['apikey'] # unique token used for authentication
 
@@ -35,10 +25,10 @@ def handle(msg):
 
     print (alert)
     if command=='/help':
-        Message='Hi,welcome to table checker. You can check the status of table 1 using /table1 and table 2 using /table2. You can also use /alltables to get an update on all tables available.'
+        Message='Hi,welcome to table checker. You can type /help for some help.'
     elif command=='/start':
-         Message='Hi,welcome to table checker. You can check the status of table 1 using /table1 and table 2 using /table2. You can also use /alltables to get an update on all tables available.'
- 
+         Message='Looks like you need some help. You can check the status of table 1 using /table1 and table 2 using /table2. You can also use /alltables to get an update on all tables available.'
+
     elif command=='/alltables':
         name1=db.child('name1').get().val()
         name2=db.child('name2').get().val()
