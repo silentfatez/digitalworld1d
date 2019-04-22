@@ -22,6 +22,7 @@ from kivy.clock import Clock
 Window.clearcolor=(1,1,1,1)
 
 Builder.load_string("""
+#:import Clock kivy.clock.Clock
 #:import Factory kivy.factory.Factory                
 <MyPopup@Popup>:
     auto_dismiss: False
@@ -116,8 +117,9 @@ Builder.load_string("""
 
 
 <Check_others>:
-    
+    on_enter: Clock.schedule_interval(self.check_update,5) 
     FloatLayout:
+        
         
         Label: 
             text:'Cohort Classroom 7'
@@ -245,9 +247,9 @@ class Check_others(Screen):
         self.db.child("table2").set(self.ids.others2.text)
         
     def check_update(self,*args):
-        self.ids.others1.text == self.db.child("table1").get().val()
-        self.ids.others1_name.text == self.db.child("name1").get().val()
-        
+        self.ids.others1.text = self.db.child("table1").get().val()
+        self.ids.others1_name.text = self.db.child("name1").get().val()
+        print('here')
         
     #State= 'Available'
     
@@ -271,19 +273,17 @@ class Check_others(Screen):
         
 
 #creating screen manager
-sm = ScreenManager()
-sm.add_widget(Menu(name='menu'))
-sm.add_widget(Location(name='location'))
-sm.add_widget(Check_others(name='check_others'))
-#sm.add_widget(DropDownScreen(name='drop'))
-sm.current = 'menu' #changes first screen for testing
-
 
 
 class KivyApp (App):
     
     def build(self):
-        Clock.schedule_interval(Check_others().check_update,5)
+        sm = ScreenManager()
+        sm.add_widget(Menu(name='menu'))
+        sm.add_widget(Location(name='location'))
+        sm.add_widget(Check_others(name='check_others'))
+        #sm.add_widget(DropDownScreen(name='drop'))
+        sm.current = 'menu' #changes first screen for testing
         return sm  
         
             
