@@ -42,24 +42,24 @@ def handle(msg):
     elif command=='/alltables':
         name1=db.child('name1').get().val()
         name2=db.child('name2').get().val()
-        if name1 != 'Empty':
+        if name1 != '':
             submessage1='Table 1 is Occupied by '+name1
         else:
             submessage1='Table 1 is Empty'
-        if name2 !="Empty":
+        if name2 !="":
             submessage2='Table 2 is Occupied by '+name2
         else:
             submessage2='Table 2 is Empty'
         Message=submessage1+' and '+submessage2
     elif command == '/table1':
         name1=db.child('name1').get().val()
-        if name1 != 'Empty':
+        if name1 != '':
             Message='Table 1 is Occupied by '+name1
         else:
             Message='Table 1 is Empty'
     elif command == '/table2':
         name2=db.child('name2').get().val()
-        if name2 != 'Empty':
+        if name2 != '':
             Message='Table 2 is Occupied by '+name2
         else:
             Message='Table 2 is Empty'

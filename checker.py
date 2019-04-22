@@ -47,7 +47,7 @@ class tableSM(sm.SM):
 
             elif state=='table 1 occupied':
                 if timenow.time()<table1time.time():
-                    if name1=='Empty':
+                    if name1=='':
                         db.child("name1").set('Unknown')
                     table1timebuffer = table1time - datetime.timedelta(minutes = blockbuffertime)
                     if timenow.time()<table1timebuffer.time():
@@ -66,14 +66,14 @@ class tableSM(sm.SM):
                         next_state=state
                 else:
                     next_state='all clear'
-                    db.child("name1").update('Empty')
+                    db.child("name1").update('')
                     db.child('table1time').set('Empty')
 
 
 
             elif state=='table 2 occupied':
                 if timenow.time()<table2time.time():
-                    if name2=='Empty':
+                    if name2=='':
                         db.child("name2").update('Unknown')
                     table2timebuffer = table2time - datetime.timedelta(minutes = blockbuffertime)
 
@@ -95,14 +95,14 @@ class tableSM(sm.SM):
                         next_state=state
                 else:
                     next_state='all clear'
-                    db.child("name2").update('Empty')
+                    db.child("name2").update('')
                     db.child('table2time').set("Empty")
 
 
             elif state=='all tables occupied':
-                if name1=='Empty':
+                if name1=='':
                     db.child("name1").update('Unknown')
-                if name2=='Empty':
+                if name2=='':
                     db.child("name1").update('Unknown')
                 table1timebuffer = table1time - datetime.timedelta(minutes = blockbuffertime)
                 table2timebuffer = table2time - datetime.timedelta(minutes = blockbuffertime)
@@ -121,11 +121,11 @@ class tableSM(sm.SM):
                 if timenow.time()>table2time.time():
                     next_state='table 1 occupied'
                     db.child('table2time').set("Empty")
-                    db.child("name2").update('Empty')
+                    db.child("name2").update('')
                 elif timenow.time()>table1time.time():
                     next_state='table 2 occupied'
                     db.child('table1time').set("Empty")
-                    db.child("name1").update('Empty')
+                    db.child("name1").update('')
                 else:
                     next_state=state
 

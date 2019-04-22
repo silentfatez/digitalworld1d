@@ -1,8 +1,6 @@
-from multiprocessing import Process
 import RPi.GPIO as GPIO
 import time
 from libdw import pyrebase
-from mfrc522 import SimpleMFRC522
 from secrets import firebasesecrets
 from libdw import sm
 tablenumber=1
@@ -10,9 +8,6 @@ GPIO.setwarnings(False)
 distancelimit=10
 GPIO.setmode(GPIO.BCM)
 
-def do_actions():
-     id, text = reader.read()
-     db.child("name"+str(tablenumber)).update(text)
 
 url = firebasesecrets['url'] # URL to Firebase database
 apikey = firebasesecrets['apikey'] # unique token used for authentication
@@ -78,7 +73,6 @@ def distance():
     return distance
 
 
-reader = SimpleMFRC522()
 sensor=Sensors()
 sensor.start()
 next_state='Empty'
@@ -86,23 +80,6 @@ next_state='Empty'
 
 try:
         while True:
-
-        # We create a Process
-
-            action_process = Process(target=do_actions)
-
-        # We start the process and we block for 5 seconds.
-            action_process.start()
-            action_process.join(timeout=3)
-        # We terminate the process.
-            action_process.terminate()
-##            try:
-##                print('here')
-##            id, text = reader.read()
-##            db.child("name1").set(text)
-##            except:
-##                print('there')
-##                pass
             dist = distance()
             print(dist)
             next_state=sensor.step(next_state)
