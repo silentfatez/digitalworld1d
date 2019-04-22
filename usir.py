@@ -13,7 +13,6 @@ GPIO.setmode(GPIO.BCM)
 def do_actions():
      id, text = reader.read()
      db.child("name"+str(tablenumber)).update(text)
-     print(text)
 
 url = firebasesecrets['url'] # URL to Firebase database
 apikey = firebasesecrets['apikey'] # unique token used for authentication
@@ -88,16 +87,15 @@ next_state='Empty'
 try:
         while True:
 
-            if __name__ == '__main__':
         # We create a Process
 
-                    action_process = Process(target=do_actions)
+            action_process = Process(target=do_actions)
 
         # We start the process and we block for 5 seconds.
-                    action_process.start()
-                    action_process.join(timeout=3)
+            action_process.start()
+            action_process.join(timeout=3)
         # We terminate the process.
-                    action_process.terminate()
+            action_process.terminate()
 ##            try:
 ##                print('here')
 ##            id, text = reader.read()
