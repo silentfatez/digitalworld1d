@@ -6,7 +6,6 @@ Created on Wed Apr 10 13:25:54 2019
 """
 #firebase
 from libdw import pyrebase
-
 #kivy
 from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
@@ -24,8 +23,8 @@ from secrets import *
 Window.clearcolor=(1,1,1,1)
 
 Builder.load_string("""
-#:import Clock kivy.clock.Clock
 #:import Factory kivy.factory.Factory
+#:import Clock kivy.clock.Clock
 <MyPopup@Popup>:
     auto_dismiss: False
     title: "Instructions"
@@ -87,6 +86,7 @@ Builder.load_string("""
             font_size: 25
             pos_hint: {'center_x':0.5, 'center_y': 0.7}
             size_hint: 0.5, 0.15
+            on_press: root.manager.current = "blk55"
 
         Button:
             text: 'Block 57'
@@ -122,7 +122,6 @@ Builder.load_string("""
     on_enter: Clock.schedule_interval(self.check_update,5)
     FloatLayout:
 
-
         Label:
             text:'Cohort Classroom 7'
             font_size: 48
@@ -145,15 +144,15 @@ Builder.load_string("""
             on_press: root.edit_others1()
             font_size: 25
             pos_hint: {'center_x':0.5, 'center_y': 0.5}
-            size_hint: 0.3, 0.2
+            size_hint: 0.295, 0.195
             background_normal: ''
-            background_color: (0,1,0,0.8) if self.text == "Empty" else (1,0,0,0.8)
+            background_color: (0,0.9,0,0.8) if self.text == "Empty" else (0.9,0,0,0.8)
 
         Label:
             id: others1_name
-            text: root.db.child("name1").get().val()
-            font_size: 25
-            pos_hint: {'center_x':0.6, 'center_y': 0.44}
+            text: ("by " + root.db.child("name1").get().val()) if root.db.child("table1").get().val() == "Occupied" else ""
+            font_size: 20
+            pos_hint: {'center_x':0.55, 'center_y': 0.43}
             size_hint: 0.15, 0.1
             color: 0,0,0,1
 
@@ -163,15 +162,15 @@ Builder.load_string("""
             on_press: root.edit_others2()
             font_size: 25
             pos_hint: {'center_x':0.8, 'center_y': 0.5}
-            size_hint: 0.3, 0.2
+            size_hint: 0.295, 0.195
             background_normal: ''
-            background_color: (0,1,0,0.8) if self.text == "Empty" else (1,0,0,0.8)
+            background_color: (0,0.9,0,0.8) if self.text == "Empty" else (0.9,0,0,0.8)
 
         Label:
             id: others2_name
-            text:root.db.child("name2").get().val()
-            font_size: 25
-            pos_hint: {'center_x':0.9, 'center_y': 0.44}
+            text: ("by " + root.db.child("name2").get().val()) if root.db.child("table2").get().val() == "Occupied" else ""
+            font_size: 20
+            pos_hint: {'center_x':0.85, 'center_y': 0.43}
             size_hint: 0.15, 0.1
             color: 0,0,0,1
 
@@ -199,6 +198,296 @@ Builder.load_string("""
             on_press: root.manager.current = "location"
 
 
+<Check_BLK55>:
+
+    FloatLayout:
+
+        Label:
+            text:'Block 55'
+            font_size: 40
+            pos_hint: {'center_x': 0.5, 'center_y':0.95}
+            size_hint: 0.3, 0.2
+            color: 0,0,0,1
+
+####### LVL 2 #############
+        Label:
+            text: 'Level 2 Meeting Room'
+            font_size: 20
+            pos_hint: {'center_x':0.2, 'center_y': 0.7}
+            size_hint: 0.3, 0.1
+            color: 0,0,0,1
+
+        Button:
+            id: lvl2MR
+            text:"Empty" #Normally should be getting values from firebase
+            font_size: 20
+            pos_hint: {'center_x':0.65, 'center_y': 0.7}
+            size_hint: 0.595, 0.095
+            background_normal: ''
+            background_color: (0,0.9,0,0.8) if self.text == "Empty" else (0.9,0,0,0.8)
+
+        Label:
+            id: lvl2MR_name
+            text: ""
+            font_size: 15
+            pos_hint: {'center_x':0.85, 'center_y': 0.62}
+            size_hint: 0.15, 0.1
+            color: 0,0,0,1
+
+####### LVL 4 #############
+        Label:
+            text: 'Level 4 Study Room'
+            font_size: 20
+            pos_hint: {'center_x':0.2, 'center_y': 0.6}
+            size_hint: 0.3, 0.1
+            color: 0,0,0,1
+
+        Button:
+            id: lvl4SR
+            text:"Occupied" #Normally should be getting values from firebase
+            font_size: 20
+            pos_hint: {'center_x':0.65, 'center_y': 0.6}
+            size_hint: 0.595, 0.095
+            background_normal: ''
+            background_color: (0,0.9,0,0.8) if self.text == "Empty" else (0.9,0,0,0.8)
+
+        Label:
+            id: lvl4SR_name
+            text: "by "+"Unknown"
+            font_size: 15
+            pos_hint: {'center_x':0.85, 'center_y': 0.57}
+            size_hint: 0.3, 0.1
+            color: 0,0,0,1
+
+        Label:
+            text: 'Level 4 Recre Room'
+            font_size: 20
+            pos_hint: {'center_x':0.2, 'center_y': 0.5}
+            size_hint: 0.3, 0.10
+            color: 0,0,0,1
+
+        Button:
+            id: lvl4RR
+            text:"Occupied" #Normally should be getting values from firebase
+            font_size: 20
+            pos_hint: {'center_x':0.65, 'center_y': 0.5}
+            size_hint: 0.595, 0.095
+            background_normal: ''
+            background_color: (0,0.9,0,0.8) if self.text == "Empty" else (0.9,0,0,0.8)
+
+        Label:
+            id: lvl4RR_name
+            text: "by " + "Bob"
+            font_size: 15
+            pos_hint: {'center_x':0.85, 'center_y': 0.47}
+            size_hint: 0.3, 0.1
+            color: 0,0,0,1
+
+####### LVL 6 #############
+        Label:
+            text: 'Level 6 Study Room'
+            font_size: 20
+            pos_hint: {'center_x':0.2, 'center_y': 0.4}
+            size_hint: 0.3, 0.1
+            color: 0,0,0,1
+
+        Button:
+            id: lvl6SR1
+            text:"Empty" #Normally should be getting values from firebase
+            font_size: 20
+            pos_hint: {'center_x':0.425, 'center_y': 0.4}
+            size_hint: 0.145, 0.095
+            background_normal: ''
+            background_color: (0,0.9,0,0.8) if self.text == "Empty" else (0.9,0,0,0.8)
+
+        Label:
+            id: lvl6SR_name1
+            text: ""
+            font_size: 13
+            pos_hint: {'center_x':0.46, 'center_y': 0.365}
+            size_hint: 0.15, 0.1
+            color: 0,0,0,1
+
+        Button:
+            id: lvl6SR2
+            text:"Occupied"
+            font_size: 20
+            pos_hint: {'center_x':0.575, 'center_y': 0.4}
+            size_hint: 0.1475, 0.095
+            background_normal: ''
+            background_color: (0,0.9,0,0.8) if self.text == "Empty" else (0.9,0,0,0.8)
+
+        Label:
+            id: lvl6SR_name2
+            text: "by " + "Nicole"
+            font_size: 13
+            pos_hint: {'center_x':0.61, 'center_y': 0.365}
+            size_hint: 0.15, 0.1
+            color: 0,0,0,1
+
+        Button:
+            id: lvl6SR3
+            text:"Empty"
+            font_size: 20
+            pos_hint: {'center_x':0.725, 'center_y': 0.4}
+            size_hint: 0.1475, 0.095
+            background_normal: ''
+            background_color: (0,0.9,0,0.8) if self.text == "Empty" else (0.9,0,0,0.8)
+
+        Label:
+            id: lvl6SR_name3
+            text: ""
+            font_size: 13
+            pos_hint: {'center_x':0.76, 'center_y': 0.365}
+            size_hint: 0.15, 0.1
+            color: 0,0,0,1
+
+        Button:
+            id: lvl6SR4
+            text:"Occupied"
+            font_size: 20
+            pos_hint: {'center_x':0.875, 'center_y': 0.4}
+            size_hint: 0.145, 0.095
+            background_normal: ''
+            background_color: (0,0.9,0,0.8) if self.text == "Empty" else (0.9,0,0,0.8)
+
+        Label:
+            id: lvl6SR_name4
+            text: "by " + "Oliver"
+            font_size: 13
+            pos_hint: {'center_x':0.91, 'center_y': 0.365}
+            size_hint: 0.15, 0.1
+            color: 0,0,0,1
+
+        Label:
+            text: 'Table 1'
+            font_size: 13
+            pos_hint: {'center_x':0.385, 'center_y': 0.43}
+            size_hint: 0.15, 0.1
+            color: 0,0,0,1
+
+        Label:
+            text: 'Table 2'
+            font_size: 13
+            pos_hint: {'center_x':0.535, 'center_y': 0.43}
+            size_hint: 0.15, 0.1
+            color: 0,0,0,1
+
+        Label:
+            text: 'Table 3'
+            font_size: 13
+            pos_hint: {'center_x':0.685, 'center_y': 0.43}
+            size_hint: 0.15, 0.1
+            color: 0,0,0,1
+
+        Label:
+            text: 'Table 4'
+            font_size: 13
+            pos_hint: {'center_x':0.835, 'center_y': 0.43}
+            size_hint: 0.15, 0.1
+            color: 0,0,0,1
+
+        Label:
+            text: 'Level 6 Recre Room'
+            font_size: 20
+            pos_hint: {'center_x':0.2, 'center_y': 0.3}
+            size_hint: 0.3, 0.1
+            color: 0,0,0,1
+
+        Button:
+            id: lvl6RR
+            text:"Occupied" #Normally should be getting values from firebase
+            font_size: 20
+            pos_hint: {'center_x':0.65, 'center_y': 0.3}
+            size_hint: 0.595, 0.095
+            background_normal: ''
+            background_color: (0,0.9,0,0.8) if self.text == "Empty" else (0.9,0,0,0.8)
+
+        Label:
+            id: lvl6RR_name
+            text: "by " + "Unknown"
+            font_size: 15
+            pos_hint: {'center_x':0.85, 'center_y': 0.27}
+            size_hint: 0.15, 0.1
+            color: 0,0,0,1
+
+####### LVL 7 #############
+        Label:
+            text: 'Level 7 Meeting Room'
+            font_size: 20
+            pos_hint: {'center_x':0.2, 'center_y': 0.2}
+            size_hint: 0.3, 0.1
+            color: 0,0,0,1
+
+        Button:
+            id: lvl7MR1
+            text:"Occupied"
+            font_size: 20
+            pos_hint: {'center_x':0.5, 'center_y': 0.2}
+            size_hint: 0.295, 0.095
+            background_normal: ''
+            background_color: (0,0.9,0,0.8) if self.text == "Empty" else (0.9,0,0,0.8)
+
+        Label:
+            id: lvl7MR_name1
+            text: "by " + "Taylor"
+            font_size: 15
+            pos_hint: {'center_x':0.6, 'center_y': 0.17}
+            size_hint: 0.15, 0.1
+            color: 0,0,0,1
+
+        Button:
+            id: lvl7MR2
+            text: "Empty"
+            font_size: 20
+            pos_hint: {'center_x':0.8, 'center_y': 0.2}
+            size_hint: 0.295, 0.095
+            background_normal: ''
+            background_color: (0,0.9,0,0.8) if self.text == "Empty" else (0.9,0,0,0.8)
+
+        Label:
+            id: lvl7MR_name2
+            text: ""
+            font_size: 15
+            pos_hint: {'center_x':0.9, 'center_y': 0.17}
+            size_hint: 0.15, 0.1
+            color: 0,0,0,1
+
+
+####### LVL 9 #############
+        Label:
+            text: 'Level 9 Meeting Room'
+            font_size: 20
+            pos_hint: {'center_x':0.2, 'center_y': 0.1}
+            size_hint: 0.3, 0.1
+            color: 0,0,0,1
+
+        Button:
+            id: lvl9MR
+            text:"Empty" #Normally should be getting values from firebase
+            font_size: 20
+            pos_hint: {'center_x':0.65, 'center_y': 0.1}
+            size_hint: 0.595, 0.095
+            background_normal: ''
+            background_color: (0,0.9,0,0.8) if self.text == "Empty" else (0.9,0,0,0.8)
+
+        Label:
+            id: lvl9MR_name
+            text: ""
+            font_size: 15
+            pos_hint: {'center_x':0.85, 'center_y': 0.07}
+            size_hint: 0.15, 0.1
+            color: 0,0,0,1
+
+
+        Button:
+            text: '< Back'
+            font_size: 20
+            pos_hint: {'x':0, 'y': 0.9}
+            size_hint: 0.2, 0.1
+            background_color: (0,0,0,0.1)
+            color: (0,0,0,1)
+            on_press: root.manager.current = "location"
 
 
 
@@ -251,28 +540,9 @@ class Check_others(Screen):
     def check_update(self,*args):
         self.ids.others1.text = self.db.child("table1").get().val()
         self.ids.others1_name.text = self.db.child("name1").get().val()
-        print('here')
 
-    #State= 'Available'
-
-
-#class LocationDropDown(DropDown):
-#    def build(self):
-#        mainbutton=Button(text='text')
-#        return mainbutton
-#
-#class DropDownScreen(Screen):
-#    def buil(self):
-#        return LocationDropDown
-#
-#    def build(self):
-#        mainbutton = Button(text='test')
-#        dropdown = LocationDropDown()
-#        mainbutton = Button(text='Hello', size_hint=(0.3, 0.1), pos_hint={'center_x': 0.5, 'center_y':0.9})
-#        mainbutton.bind(on_release=dropdown.open)
-#        dropdown.bind(on_select=lambda instance, x: setattr(mainbutton, 'text', x))
-#        return mainbutton
-
+class Check_BLK55(Screen):
+    pass
 
 #creating screen manager
 
@@ -280,10 +550,12 @@ class Check_others(Screen):
 class KivyApp (App):
 
     def build(self):
+        #creating screen manager
         sm = ScreenManager()
         sm.add_widget(Menu(name='menu'))
         sm.add_widget(Location(name='location'))
         sm.add_widget(Check_others(name='check_others'))
+        sm.add_widget(Check_BLK55(name='blk55'))
         #sm.add_widget(DropDownScreen(name='drop'))
         sm.current = 'menu' #changes first screen for testing
         return sm
