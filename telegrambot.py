@@ -6,7 +6,7 @@ from telepot.loop import MessageLoop
 from libdw import pyrebase
 from secrets import *
 
-"""
+
 url = firebasesecrets['url'] # URL to Firebase database
 apikey = firebasesecrets['apikey'] # unique token used for authentication
 
@@ -53,6 +53,8 @@ def handle(msg):
             Message='Table 2 is Occupied by '+name2
         else:
             Message='Table 2 is Empty'
+    else:
+        Message="wrong command, use /help for help."
 
     bot.sendMessage(chat_id, str(Message))
 
