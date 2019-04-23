@@ -5,7 +5,7 @@ from secrets import firebasesecrets
 from libdw import sm
 tablenumber=1
 GPIO.setwarnings(False)
-distancelimit=10
+distancelimit=100
 GPIO.setmode(GPIO.BCM)
 
 
@@ -24,15 +24,17 @@ class Sensors(sm.SM):
             dist = distance()
             iroutput=GPIO.input(IR)
             if state=='Empty':
-                if dist>distancelimit and iroutput==True:
-                    state='Occupied'
-                    db.child("table"+str(tablenumber)).update(state)
+                if dist<distancelimit or iroutput==True:
+                    next_state='Occupied'
+                    db.child("table"+str(tablenumber)).update(next_state)
                 else:
                     state=state
             else:
-                if dist<distancelimit and iroutput==False:
-                    state='Empty'
-                    db.child('table'+str(tablenumber)).update(state)
+                if dist>distancelimit and iroutput==False:
+                    next_state='Empty'
+                    db.child('table'+str(tablenumber)).update(next_state)
+                else:
+                    next_state=state
 
             return next_state,next_state
 
@@ -81,7 +83,6 @@ next_state='Empty'
 try:
         while True:
             dist = distance()
-            print(dist)
             next_state=sensor.step(next_state)
             time.sleep(1)
         # Reset by pressing CTRL + C
