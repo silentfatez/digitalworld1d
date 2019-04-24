@@ -1,3 +1,4 @@
+#Update RFID scanner reading to Firebase
 import RPi.GPIO as GPIO
 from libdw import pyrebase
 from mfrc522 import SimpleMFRC522
@@ -16,6 +17,7 @@ reader = SimpleMFRC522()
 try:
     while True:
         id, text = reader.read()
+        #updates the card user's name to the corresponding table's value in Firebase
         db.child("name"+str(tablenumber)).set(text)
 except KeyboardInterrupt:
         print("Measurement stopped by User")
