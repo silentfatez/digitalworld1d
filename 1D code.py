@@ -18,6 +18,7 @@ from kivy.lang import Builder
 from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.clock import Clock
+from secrets import *
 
 
 Window.clearcolor=(1,1,1,1)
@@ -520,8 +521,8 @@ class Location(Screen):
 
 # the Check_others screen involves getting data from the firebase, code is written to set up firebase
 class Check_others(Screen):
-    url = 'https://digital-world-7e769.firebaseio.com/' # URL to Firebase database
-    apikey = 'AIzaSyDG2LUSil7hUbH3lseW4Vxn_optQhFk3z0' # unique token used for authentication
+    url = firebasesecrets['url'] # URL to Firebase database
+    apikey = firebasesecrets['apikey'] # unique token used for authentication
 
     config={
             "apiKey":apikey,
