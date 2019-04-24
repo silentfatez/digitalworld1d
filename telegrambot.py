@@ -8,12 +8,11 @@ from libdw import pyrebase
 #secrets is a python file containing all the credentials of Firebase and Telegram
 from secrets import *
 
+#setup for firebase
 #URL to Firebase database
 url = firebasesecrets['url']
-
 #unique token used for authentication
 apikey = firebasesecrets['apikey']
-
 config={
     "apiKey":apikey,
     "databaseURL":url,
@@ -22,6 +21,7 @@ firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 
 
+#to handle the different commands coming to the telegram bot
 def handle(msg):
     chat_id = msg['chat']['id']
     command = msg['text']
@@ -94,12 +94,14 @@ def handle(msg):
 
         #if application user sends other commands, it will return an error message
         Message="wrong command, use /help for help."
-        
+
     #display message in SUTDROOMbot
     bot.sendMessage(chat_id, str(Message))
 
+#Token references a string in secrets for the telegram API key
 bot = telepot.Bot(TOKEN)
 
+#standard telepot setup
 MessageLoop(bot, handle).run_as_thread()
 print ('I am listening ...')
 
