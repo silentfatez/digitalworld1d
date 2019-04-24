@@ -5,12 +5,13 @@ from secrets import firebasesecrets
 tablenumber=1
 url = firebasesecrets['url'] # URL to Firebase database
 apikey = firebasesecrets['apikey'] # unique token used for authentication
-firebase = pyrebase.initialize_app(config)
-db = firebase.database()
+
 config={
     "apiKey":apikey,
     "databaseURL":url,
 }
+firebase = pyrebase.initialize_app(config)
+db = firebase.database()
 reader = SimpleMFRC522()
 try:
     while True:

@@ -11,14 +11,14 @@ sheet = client.open("Room Data").sheet1
 row = ['Time','state']
 index = 1
 sheet.insert_row(row, index)
-def update_second_row(state,n):
+def update_next_row(state,n):
     row = [str(datetime.datetime.now()),str(state)]
     sheet.insert_row(row, n)
 
 
 
-blocktime=0.5
-blockbuffertime=0
+blocktime=1
+blockbuffertime=0.5
 class tableSM(sm.SM):
 
     def __init__(self):
@@ -38,7 +38,7 @@ class tableSM(sm.SM):
                     table1time = datetime.datetime.now()
                     table1time = table1time + datetime.timedelta(minutes = blocktime)
                     db.child('table1time').set(str(table1time))
-                    update_second_row(next_state,self.count)
+                    update_next_row(next_state,self.count)
                     self.count+=1
 
                 elif table2val=='Occupied':
@@ -47,7 +47,7 @@ class tableSM(sm.SM):
                     table2time = table2time + datetime.timedelta(minutes = blocktime)
                     table2timebuffer = table2time - datetime.timedelta(minutes = blockbuffertime)
                     db.child('table2time').set(str(table2time))
-                    update_second_row(next_state,self.count)
+                    update_next_row(next_state,self.count)
                     self.count+=1
 
                 else:
@@ -69,7 +69,7 @@ class tableSM(sm.SM):
                         table2time = datetime.datetime.now()
                         table2time = table2time + datetime.timedelta(minutes = blocktime)
                         db.child('table2time').set(str(table2time))
-                        update_second_row(next_state,self.count)
+                        update_next_row(next_state,self.count)
                         self.count+=1
 
 
@@ -80,7 +80,7 @@ class tableSM(sm.SM):
                     next_state='all clear'
                     db.child("name1").set('')
                     db.child('table1time').set('Empty')
-                    update_second_row(next_state,self.count)
+                    update_next_row(next_state,self.count)
                     self.count+=1
 
 
@@ -104,7 +104,7 @@ class tableSM(sm.SM):
                         table1time = datetime.datetime.now()
                         table1time = table1time + datetime.timedelta(minutes = blocktime)
                         db.child('table1time').set(str(table1time))
-                        update_second_row(next_state,self.count)
+                        update_next_row(next_state,self.count)
                         self.count+=1
 
                     else:
@@ -113,7 +113,7 @@ class tableSM(sm.SM):
                     next_state='all clear'
                     db.child("name2").set('')
                     db.child('table2time').set("Empty")
-                    update_second_row(next_state,self.count)
+                    update_next_row(next_state,self.count)
                     self.count+=1
 
 
@@ -140,14 +140,14 @@ class tableSM(sm.SM):
                     next_state='table 1 occupied'
                     db.child('table2time').set("Empty")
                     db.child("name2").set('')
-                    update_second_row(next_state,self.count)
+                    update_next_row(next_state,self.count)
                     self.count+=1
 
                 elif timenow.time()>table1time.time():
                     next_state='table 2 occupied'
                     db.child('table1time').set("Empty")
                     db.child("name1").set('')
-                    update_second_row(next_state,self.count)
+                    update_next_row(next_state,self.count)
                     self.count+=1
                 else:
                     next_state=state

@@ -26,13 +26,13 @@ class Sensors(sm.SM):
             if state=='Empty':
                 if dist<distancelimit or iroutput==True:
                     next_state='Occupied'
-                    db.child("table"+str(tablenumber)).update(next_state)
+                    db.child("table"+str(tablenumber)).set(next_state)
                 else:
                     state=state
             else:
                 if dist>distancelimit and iroutput==False:
                     next_state='Empty'
-                    db.child('table'+str(tablenumber)).update(next_state)
+                    db.child('table'+str(tablenumber)).set(next_state)
                 else:
                     next_state=state
 
@@ -40,9 +40,9 @@ class Sensors(sm.SM):
 
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
-TRIG = 16
-ECHO = 20
-IR=26
+TRIG = 13
+ECHO = 19
+IR=20
 GPIO.setup(TRIG,GPIO.OUT)# Trig pin of Ultrasonic setup
 GPIO.setup(ECHO,GPIO.IN)
 GPIO.setup(IR,GPIO.IN) #GPIO 14 -> IR sensor as input
