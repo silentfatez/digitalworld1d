@@ -1,11 +1,15 @@
 import RPi.GPIO as GPIO
 import time
 from libdw import pyrebase
+
+#secret is a python file containing all the credentials of Firebase
 from secrets import firebasesecrets
+
 from libdw import sm
 
-
+#tablenumer changes accordingly with the different table numbers
 tablenumber=1
+
 GPIO.setwarnings(False)
 
 #distancelimit is set to 100cm
