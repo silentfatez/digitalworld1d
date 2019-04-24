@@ -1,5 +1,6 @@
 "# digitalworld2d - F07 Group"
 
+
 Background:
 
 Singapore University of Technology and Design (SUTD) is gearing towards being the heart of Smart Nation by building a Smart Campus that utilises technology, networks and big data.
@@ -19,3 +20,20 @@ When table users tap their cards on the RFID readers, it will automatically upda
 This code imports gspread and oauth2client
 
 3. RFIDwrite.py
+
+
+
+ To run our files: you will need to install modules
+ 1.libdw
+ 2.KivyApp
+ 3.mfrc522
+ 4.gspread
+ 5.oauth2client
+ 6.telepot
+ 7.spidev
+ and have a file named secrets with your credentials for telegram bot and firebase.(provided for grading)
+ We will als need a json file named client_secret for the credentials of google spreadsheet(also provided for grading)
+ use pip3 install for all the modules above.
+
+
+ enable spi using raspi-config
