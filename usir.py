@@ -10,20 +10,31 @@ from libdw import sm
 #tablenumer changes accordingly with the different table numbers
 tablenumber=1
 
-GPIO.setwarnings(False)
-
+#setup for ultrasonic sensor
 #distancelimit is set to 100cm
 distancelimit=100
 GPIO.setmode(GPIO.BCM)
+TRIG = 13
+ECHO = 19
+GPIO.setup(TRIG,GPIO.OUT) #Trig pin of Ultrasonic setup
+GPIO.setup(ECHO,GPIO.IN) #GPIO 19 -> Echo as input
 
+#setup for ir sensor
+IR=20
+GPIO.setup(IR,GPIO.IN) #GPIO 13 -> IR sensor as input
 
+#standard setup for firebaseio
+#firebase secrets is a dictionary in secrets
 url = firebasesecrets['url'] #URL to Firebase database
 apikey = firebasesecrets['apikey'] #unique token used for authentication
-
 config={
     "apiKey":apikey,
     "databaseURL":url,
 }
+firebase = pyrebase.initialize_app(config)
+db = firebase.database()
+
+#setup for sensor state machine
 class Sensors(sm.SM):
 
     #sets initial state to be 'empty'
@@ -63,14 +74,8 @@ class Sensors(sm.SM):
 
             return next_state,next_state
 
-firebase = pyrebase.initialize_app(config)
-db = firebase.database()
-TRIG = 13
-ECHO = 19
-IR=20
-GPIO.setup(TRIG,GPIO.OUT) #Trig pin of Ultrasonic setup
-GPIO.setup(ECHO,GPIO.IN) #GPIO 19 -> Echo as input
-GPIO.setup(IR,GPIO.IN) #GPIO 13 -> IR sensor as input
+
+
 
 def distance():
     #set Trigger to HIGH
@@ -101,7 +106,7 @@ def distance():
 
     return distance
 
-
+#initialize sensors state machine
 sensor=Sensors()
 sensor.start()
 next_state='Empty'

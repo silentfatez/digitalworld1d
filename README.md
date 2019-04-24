@@ -28,7 +28,7 @@ This is our script to run the SUTDROOMbot in Telegram. The application allows us
 6. rfid write.py
 This is an online code to write an RFID card.
 
-7. Defunc Folder
+7. Defunct Folder
 This folder contains codes that was meant to combine usir.py and card.py however processes does not run well on rpi.
 
 

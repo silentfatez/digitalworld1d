@@ -232,8 +232,7 @@ class tableSM(sm.SM):
 # URL to Firebase database
 url = firebasesecrets['url']
 
- # unique token used for authentication
-
+# unique token used for authentication
 apikey = firebasesecrets['apikey']
 config={
     "apiKey":apikey,
