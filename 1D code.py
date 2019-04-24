@@ -540,7 +540,7 @@ class Check_others(Screen):
             
         else:
             self.ids.others1.text = "Occupied"
-            self.ids.others1_name.text = self.db.child("name1").get().val()
+            self.ids.others1_name.text = "Unknown"
             
         self.db.child("table1").set(self.ids.others1.text)
         self.db.child("name1").set(self.ids.others1_name.text)
