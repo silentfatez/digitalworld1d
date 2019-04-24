@@ -29,7 +29,6 @@ class tableSM(sm.SM):
             table2val= db.child("table2").get().val()
             name1=db.child('name1').get().val()
             name2=db.child('name2').get().val()
-            print(table1val)
             timenow=datetime.datetime.now()
             table1time,table2time=inp #get timings from previous inp
             if state=='all clear':
@@ -169,5 +168,4 @@ table1time=datetime.datetime.now()
 table2time=datetime.datetime.now()
 
 while 1:
-    print(tablesm.state)
     (table1time,table2time)=tablesm.step((table1time,table2time))
