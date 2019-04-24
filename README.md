@@ -31,17 +31,17 @@ This is an online code to write an RFID card.
 7. Defunct Folder
 This folder contains codes that was meant to combine usir.py and card.py however processes does not run well on rpi.
 
+Our programme is designed to run on 3 rpis.
+On the first 2 rpis. You will need to run usir.py and card.py concurrently using command line.
+This will require the modules
+1.mfrc522
+2.spidev
 
- To run our files: you will need to install modules
- 1.libdw
- 2.mfrc522
- 3.gspread
- 4.oauth2client
- 5.telepot
- 6.spidev
- 7.kivy
+
  and have a file named secrets with your credentials for telegram bot and firebase.(provided for grading)
- We will als need a json file named client_secret for the credentials of google spreadsheet(also provided for grading)
+
+
+a bash script has been provided with instructions to run it
 
 to run bash script ,use command line interface
 1. cd to directory of bash file, eg.(~/ $ cd digitalworld1d)
@@ -49,7 +49,30 @@ to run bash script ,use command line interface
 3. run ./install.sh(eg. ~/ $ ./install.sh)
 this is to install all dependencies together(except libdw and kivy)
 
+Now you will need to enable spi for the rfid reader. this can be done through the following steps.
 4. enable spi using raspi-config(eg. ~/ $ sudo raspi-config)
 5. go to option 5 - Interfacing Options
 6. go to option P5 - spi and select 'yes' to enable spi
 7. reboot rpi (eg. ~/ $ sudo reboot)
+
+On the 3rd rpi you will run telegrambot.py checker.py and 1D code.py together using command line.
+
+
+ To run our files: you will need to install modules
+ 1.libdw
+ 2.gspread
+ 3.oauth2client
+ 4.telepot
+ 5.kivy
+
+ and have a file named secrets with your credentials for telegram bot and firebase.(provided for grading)
+ We will also need a json file named client_secret for the credentials of google spreadsheet(also provided for grading)
+
+ a bash script has been provided with instructions to run it
+
+
+to run bash script ,use command line interface
+1. cd to directory of bash file, eg.(~/ $ cd digitalworld1d)
+2. run chmod +x install.sh(eg. ~/ $ chmod +x install2.sh)
+3. run ./install2.sh(eg. ~/ $ ./install2.sh)
+this is to install all dependencies together(except libdw and kivy)
